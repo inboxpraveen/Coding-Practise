@@ -11,17 +11,19 @@ Output
 """
 
 def merge_overlapping_orders(orders):
+    if not orders:
+        return []
+    
+    orders.sort()
+    merged = [orders[0]]
 
-    new_orders = []
-    new_orders.append(orders[0])
-
-    for each_order in orders[1:]:
-        if each_order[0] <= new_orders[-1][1]:
-            new_orders[-1] = (min(new_orders[-1][0], each_order[0]), max(new_orders[-1][1], each_order[1]))
+    for start, end in orders[1:]:
+        if start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
         else:
-            new_orders.append(each_order)
-
-    return new_orders
+            merged.append((start, end))
+    
+    return merged
 
 print(merge_overlapping_orders([(1, 3), (2, 6), (8, 10), (15, 18)]))
 

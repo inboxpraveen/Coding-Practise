@@ -16,22 +16,21 @@ Constraints
 """
 
 def minimum_kitchens_required(orders):
-
+    orders.sort()
     kitchens = []
-    kitchen_counter = 0
 
-    for order in orders:
+    for start, end in orders:
         allocated = False
-        for kitchen in kitchens:
-            if order[0] >= kitchen[1]:
+        for i in range(len(kitchens)):
+            if start >= kitchens[i]:
+                kitchens[i] = end
                 allocated = True
                 break
-
+        
         if not allocated:
-            kitchen_counter += 1
-            kitchens.append(order)
+            kitchens.append(end)
     
-    return kitchen_counter
+    return len(kitchens)
 
 
 print(minimum_kitchens_required([(9, 12), (10, 11), (11, 13), (12, 14)]))
